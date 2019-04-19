@@ -15,8 +15,8 @@ const ImageList = () => {
         {data.imageFiles.map(imageURL => {
           return (
             isImageFile(imageURL) && (
-              <Box width={[1 / 3]}>
-                <ImageCard key={imageURL} url={`${baseURL}/${imageURL}`} />
+              <Box width={[1 / 3]} key={imageURL}>
+                <ImageCard url={`${baseURL}/${imageURL}`} />
               </Box>
             )
           );

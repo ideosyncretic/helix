@@ -4,7 +4,7 @@
  * @returns {boolean} The result
  */
 const isImageFile = fileName => {
-  const imageFileExtensions = ["png", "jpg", "jpeg", "gif", "tif"];
+  const imageFileExtensions = ["png", "jpg", "jpeg", "gif"];
   if (fileName.includes(".")) {
     const fileExtension = fileName.split(".").pop();
     if (imageFileExtensions.includes(fileExtension)) {
