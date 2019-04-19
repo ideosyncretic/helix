@@ -1,14 +1,14 @@
 import React from "react";
-import { Card, Layout, Page } from "@shopify/polaris";
+import { Layout, Page } from "@shopify/polaris";
+import Filters from "../components/Filters";
+import ImageList from "../components/ImageList";
 
 const Main = () => (
-  <Page title="Gallery">
+  <Page title="Gallery" fullWidth>
     <Layout>
       <Layout.Section>
-        <Card title="Images" sectioned>
-          <Card.Section title="Filters" />
-          <Card.Section />
-        </Card>
+        <Filters />
+        <ImageList />
       </Layout.Section>
     </Layout>
   </Page>
