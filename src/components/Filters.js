@@ -7,19 +7,23 @@ class Filters extends Component {
   };
 
   render() {
+    const { uniqueLabels, handleUpdateFilters } = this.props;
+    const options = uniqueLabels.map(label => {
+      return {
+        value: label,
+        label: label,
+      };
+    });
     return (
       <Card>
         <OptionList
           title="Filter by"
-          onChange={updated => {
-            this.setState({ selected: updated });
+          onChange={updatedSelection => {
+            this.setState({ selected: updatedSelection }, () =>
+              handleUpdateFilters(updatedSelection),
+            );
           }}
-          options={[
-            { value: "people", label: "People" },
-            { value: "plants", label: "Plants" },
-            { value: "chairs", label: "Chairs" },
-            { value: "windows", label: "Windows" },
-          ]}
+          options={options}
           selected={this.state.selected}
           allowMultiple
         />
