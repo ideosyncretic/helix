@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Card } from "@shopify/polaris";
+import { Badge, Card, Stack } from "@shopify/polaris";
 
 export default class ImageCard extends Component {
   componentDidMount = () => {
@@ -60,12 +60,20 @@ export default class ImageCard extends Component {
   };
 
   render() {
-    const { imageFile } = this.props;
+    const { imageFile, images } = this.props;
     const baseURL = "https://storage.googleapis.com​";
 
     return (
       <Card>
         <img src={`${baseURL}/${imageFile}`} alt={imageFile} height="250px" />
+
+        {images[imageFile].labels && (
+          <Stack spacing="tight">
+            {images[imageFile].labels.map(label => {
+              return <Badge key={imageFile}>{label}</Badge>;
+            })}
+          </Stack>
+        )}
       </Card>
     );
   }
