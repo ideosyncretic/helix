@@ -6,5 +6,8 @@ build
 # misc
 yarn.lock
 
+# secrets
+.env
+
 # dependency directories
 node_modules/
