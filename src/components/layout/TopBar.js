@@ -18,8 +18,8 @@ const Logo = () => {
 };
 
 const StyledTopBar = styled.div`
-  position: relative;
   display: flex;
+  width: 100vw;
   height: 56px;
   align-items: center;
   background: #000000;

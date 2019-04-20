@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import { Box } from "@rebass/grid";
+import { Flex, Box } from "@rebass/grid";
+import styled from "styled-components";
 
 import Filters from "../components/Filters";
 import ImageList from "../components/ImageList";
 import Page from "../components/layout/Page";
+import TopBar from "../components/layout/TopBar";
 
 class Main extends Component {
   state = {
@@ -33,22 +35,36 @@ class Main extends Component {
   render() {
     const { uniqueLabels, activeFilters } = this.state;
     return (
-      <Page>
-        <Box mb={3}>
+      <StyledMain>
+        <Sticky>
+          <TopBar />
           <Filters
             uniqueLabels={uniqueLabels}
             handleUpdateFilters={this.handleUpdateFilters}
           />
-        </Box>
-        <Box mb={3}>
-          <ImageList
-            handleUpdateAllLabels={this.handleUpdateAllLabels}
-            activeFilters={activeFilters}
-          />
-        </Box>
-      </Page>
+        </Sticky>
+        <Page>
+          <Box mb={3}>
+            <ImageList
+              handleUpdateAllLabels={this.handleUpdateAllLabels}
+              activeFilters={activeFilters}
+            />
+          </Box>
+        </Page>
+      </StyledMain>
     );
   }
 }
+
+const StyledMain = styled(Flex)`
+  overflow-y: hidden;
+  height: 100vh;
+  width: 100vw;
+  flex-direction: column;
+`;
+
+const Sticky = styled.div`
+  position: relative;
+`;
 
 export default Main;

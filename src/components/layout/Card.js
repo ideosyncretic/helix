@@ -16,7 +16,7 @@ const CardTitle = ({ title }) => {
 
 const StyledCard = styled.div`
   background: #ffffff;
-  border-radius: 3px;
+  border-radius: 5px;
   padding: 16px;
 `;
 

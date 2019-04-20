@@ -3,7 +3,7 @@ import { Flex, Box } from "@rebass/grid";
 
 import Card from "./layout/Card";
 import data from "../data/data";
-import ImageCard from "./ImageCard";
+import Image from "./Image";
 import isImageFile from "../utils/images";
 
 let images = {};
@@ -46,35 +46,33 @@ class ImageList extends Component {
       };
 
       return (
-        <Card>
-          <Flex flexWrap="wrap" flexDirection="row">
-            {Object.keys(images).map(image => {
-              let shouldShowImage = true;
+        <Flex flexWrap="wrap" flexDirection="row" ml={-2} mt={-2}>
+          {Object.keys(images).map(image => {
+            let shouldShowImage = true;
 
-              if (activeFilters && activeFilters.length > 0) {
-                shouldShowImage =
-                  isImageFile(images[image].imageFile) &&
-                  images[image].labels.some(isFilterMatch);
-              } else {
-                shouldShowImage = isImageFile(images[image].imageFile);
-              }
+            if (activeFilters && activeFilters.length > 0) {
+              shouldShowImage =
+                isImageFile(images[image].imageFile) &&
+                images[image].labels.some(isFilterMatch);
+            } else {
+              shouldShowImage = isImageFile(images[image].imageFile);
+            }
 
-              return (
-                shouldShowImage && (
-                  <Box width={[1 / 3]} key={images[image].imageFile}>
-                    <ImageCard
-                      imageFile={images[image].imageFile}
-                      handleUpdateAllLabels={handleUpdateAllLabels}
-                      handleUpdateImages={this.handleUpdateImages}
-                      activeFilters={activeFilters}
-                      images={images}
-                    />
-                  </Box>
-                )
-              );
-            })}
-          </Flex>
-        </Card>
+            return (
+              shouldShowImage && (
+                <Box ml={2} mt={2} key={images[image].imageFile} width={273}>
+                  <Image
+                    imageFile={images[image].imageFile}
+                    handleUpdateAllLabels={handleUpdateAllLabels}
+                    handleUpdateImages={this.handleUpdateImages}
+                    activeFilters={activeFilters}
+                    images={images}
+                  />
+                </Box>
+              )
+            );
+          })}
+        </Flex>
       );
     }
     return <Card>No images found</Card>;

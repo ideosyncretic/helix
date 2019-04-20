@@ -15,7 +15,6 @@ class Filters extends Component {
   };
 
   handleChange = selection => {
-    console.log(`Options selected:`, selection);
     const filters = selection.map(option => option.value);
     this.setState({ selected: selection }, () =>
       this.props.handleUpdateFilters(filters),
@@ -33,15 +32,8 @@ class Filters extends Component {
     });
 
     return (
-      <Card title="Filters">
-        {activeFilters && activeFilters.length === 0 && (
-          <Card title="Filter by" />
-        )}
-        {activeFilters && activeFilters.length > 0 && (
-          <Card title="Matching">
-            <FilterMatchSelect />
-          </Card>
-        )}
+      <StyledFilterCard title="Filters">
+        <FilterMatchSelect activeFilters={activeFilters} />
         <Card>
           <Select
             isMulti
@@ -55,10 +47,14 @@ class Filters extends Component {
             classNamePrefix="select"
           />
         </Card>
-      </Card>
+      </StyledFilterCard>
     );
   }
 }
+
+const StyledFilterCard = styled.div`
+  width: 100vw;
+`;
 
 export default Filters;
 
@@ -72,19 +68,24 @@ class FilterMatchSelect extends React.Component {
   };
 
   render() {
+    const { activeFilters } = this.props;
     const options = [
       { label: "Any", value: "any" },
       { label: "All", value: "all" },
     ];
 
-    return (
-      <Select
-        label="Matching"
-        options={options}
-        onChange={this.handleChange}
-        value={this.state.selected}
-        labelInline={true}
-      />
-    );
+    if (activeFilters && activeFilters.length > 0) {
+      return (
+        <Card title="Matching">
+          <Select
+            options={options}
+            onChange={this.handleChange}
+            value={this.state.selected}
+          />
+        </Card>
+      );
+    }
+
+    return <Card title="Filter by" />;
   }
 }
