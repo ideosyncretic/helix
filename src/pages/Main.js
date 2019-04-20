@@ -11,18 +11,26 @@ class Main extends Component {
   state = {
     uniqueLabels: [], // for generating filters
     activeFilters: [],
+    activeMatchMode: "any",
   };
 
   handleUpdateAllLabels = detectedLabels => {
     const { uniqueLabels } = this.state;
 
+    const moreUniqueLabels = [];
+
     detectedLabels.map(detectedLabel => {
-      return !uniqueLabels.includes(detectedLabel)
-        ? /* Add detected label if it's not already in the list of image uniqueLabels */
-          this.setState({
-            uniqueLabels: [...uniqueLabels, detectedLabel].sort(),
-          })
-        : null;
+      if (!uniqueLabels.includes(detectedLabel)) {
+        moreUniqueLabels.push(detectedLabel);
+      }
+      return null;
+    });
+
+    const updatedUniqueLabels = [...uniqueLabels, ...moreUniqueLabels].sort();
+
+    /* Add detected label if it's not already in the list of image uniqueLabels */
+    this.setState({
+      uniqueLabels: updatedUniqueLabels,
     });
   };
 
@@ -32,15 +40,21 @@ class Main extends Component {
     });
   };
 
+  handleUpdateMatchMode = matchMode => {
+    this.setState({ activeMatchMode: matchMode });
+  };
+
   render() {
-    const { uniqueLabels, activeFilters } = this.state;
+    const { uniqueLabels, activeFilters, activeMatchMode } = this.state;
     return (
       <StyledMain>
         <Sticky>
           <TopBar />
           <Filters
+            activeFilters={activeFilters}
             uniqueLabels={uniqueLabels}
             handleUpdateFilters={this.handleUpdateFilters}
+            handleUpdateMatchMode={this.handleUpdateMatchMode}
           />
         </Sticky>
         <Page>
@@ -48,6 +62,7 @@ class Main extends Component {
             <ImageList
               handleUpdateAllLabels={this.handleUpdateAllLabels}
               activeFilters={activeFilters}
+              activeMatchMode={activeMatchMode}
             />
           </Box>
         </Page>

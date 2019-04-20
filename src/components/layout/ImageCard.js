@@ -2,15 +2,15 @@ import React from "react";
 import { Flex, Box } from "@rebass/grid";
 import styled from "styled-components";
 
-const ImageCard = ({ alt, src, images, imageFile }) => {
+const ImageCard = ({ alt, src, image }) => {
   return (
     <StyledImageCard>
       <Image src={src} alt={alt} />
       <Box p={2}>
         <Flex ml={-1} mt={-1}>
-          {images[imageFile].labels && (
+          {image.labels && (
             <Box ml={1} mt={1}>
-              {images[imageFile].labels.map(label => {
+              {image.labels.map(label => {
                 return <button key={label}>{label}</button>;
               })}
             </Box>
@@ -32,7 +32,6 @@ const StyledImageCard = styled.div`
 const StyledImage = styled.img`
   border-radius: 5px 5px 0 0;
   width: 100%;
-  ${"" /* height: 250px; */}
   object-fit: cover;
 `;
 

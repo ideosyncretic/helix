@@ -19,50 +19,59 @@ class ImageList extends Component {
     images,
   };
 
-  handleUpdateImages = (imageFile, imageLabels) => {
-    // console.log("handleUpdateImages - imageLabels:", imageLabels);
-    const { images } = this.state;
+  handleUpdateImages = (imageFile, labels) => {
     this.setState({
       images: {
-        ...images,
+        ...this.state.images,
         [imageFile]: {
           imageFile,
-          labels: imageLabels,
+          labels,
         },
       },
     });
   };
 
   render() {
+    console.log("ImageList render!");
     const { images } = this.state;
-    const { activeFilters, handleUpdateAllLabels } = this.props;
+    const {
+      activeFilters,
+      activeMatchMode,
+      handleUpdateAllLabels,
+    } = this.props;
 
     if (images) {
-      const isFilterMatch = label => {
-        if (activeFilters && label) {
-          return activeFilters.includes(label);
-        }
-        return false;
-      };
-
       return (
         <Flex flexWrap="wrap" flexDirection="row" ml={-2} mt={-2}>
-          {Object.keys(images).map(image => {
+          {Object.keys(images).map(imageFile => {
             let shouldShowImage = true;
+            const image = images[imageFile];
 
-            if (activeFilters && activeFilters.length > 0) {
-              shouldShowImage =
-                isImageFile(images[image].imageFile) &&
-                images[image].labels.some(isFilterMatch);
+            // check for valid image
+            if (isImageFile(image.imageFile)) {
+              if (activeFilters && activeFilters.length > 0) {
+                if (activeMatchMode === "any") {
+                  // show if any filters match image labels
+                  shouldShowImage = image.labels.some(label =>
+                    activeFilters.includes(label),
+                  );
+                }
+                if (activeMatchMode === "all") {
+                  // check if every filter matches image labels
+                  shouldShowImage = activeFilters.every(filter =>
+                    image.labels.includes(filter),
+                  );
+                }
+              }
             } else {
-              shouldShowImage = isImageFile(images[image].imageFile);
+              shouldShowImage = false;
             }
 
             return (
               shouldShowImage && (
-                <Box ml={2} mt={2} key={images[image].imageFile} width={273}>
+                <Box ml={2} mt={2} key={image.imageFile} width={273}>
                   <Image
-                    imageFile={images[image].imageFile}
+                    image={image}
                     handleUpdateAllLabels={handleUpdateAllLabels}
                     handleUpdateImages={this.handleUpdateImages}
                     activeFilters={activeFilters}
