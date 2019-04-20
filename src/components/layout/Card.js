@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-const Card = ({ children, title }) => {
+const Card = ({ classNames, children, title }) => {
   return (
-    <StyledCard>
+    <StyledCard classNames={classNames}>
       {title && <CardTitle title={title} />}
       {children}
     </StyledCard>
@@ -15,7 +15,7 @@ const CardTitle = ({ title }) => {
 };
 
 const StyledCard = styled.div`
-  background: #ffffff;
+  background: #fff;
   border-radius: 5px;
   padding: 16px;
 `;

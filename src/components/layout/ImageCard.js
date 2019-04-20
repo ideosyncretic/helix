@@ -2,16 +2,20 @@ import React from "react";
 import { Flex, Box } from "@rebass/grid";
 import styled from "styled-components";
 
-const ImageCard = ({ alt, src, image }) => {
+import Badge from "./Badge";
+
+const ImageCard = ({ alt, src, image, activeFilters }) => {
   return (
     <StyledImageCard>
       <Image src={src} alt={alt} />
       <Box p={2}>
-        <Flex ml={-1} mt={-1}>
+        <Flex>
           {image.labels && (
-            <Box ml={1} mt={1}>
+            <Box>
               {image.labels.map(label => {
-                return <button key={label}>{label}</button>;
+                const isActive = activeFilters.includes(label);
+                console.log("isActive", isActive);
+                return <Badge key={label} text={label} isActive={isActive} />;
               })}
             </Box>
           )}
@@ -25,7 +29,7 @@ const Image = ({ alt, src }) => {
 };
 
 const StyledImageCard = styled.div`
-  background: #ffffff;
+  background: #282828;
   border-radius: 5px;
 `;
 

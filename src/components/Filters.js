@@ -96,8 +96,10 @@ class Filters extends Component {
   }
 }
 
-const StyledFilterCard = styled(Card)`
-  width: 100vw;
+const StyledFilterCard = styled(Box)`
+  width: 100%;
+  border-radius: 0;
+  padding: 16px;
 `;
 
 export default Filters;
