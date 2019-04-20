@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Flex, Box } from "@rebass/grid";
 
+import Card from "./layout/Card";
 import data from "../data/data";
 import ImageCard from "./ImageCard";
 import isImageFile from "../utils/images";
-import { Card } from "@shopify/polaris";
 
 let images = {};
 data.imageFiles.forEach(imageFile => {
@@ -51,7 +51,7 @@ class ImageList extends Component {
             {Object.keys(images).map(image => {
               let shouldShowImage = true;
 
-              if (activeFilters.length > 0) {
+              if (activeFilters && activeFilters.length > 0) {
                 shouldShowImage =
                   isImageFile(images[image].imageFile) &&
                   images[image].labels.some(isFilterMatch);

@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { Layout, Page } from "@shopify/polaris";
+import { Box } from "@rebass/grid";
+
 import Filters from "../components/Filters";
 import ImageList from "../components/ImageList";
+import Page from "../components/layout/Page";
 
 class Main extends Component {
   state = {
@@ -31,21 +33,19 @@ class Main extends Component {
   render() {
     const { uniqueLabels, activeFilters } = this.state;
     return (
-      <Page title="Gallery" fullWidth>
-        <Layout>
-          <Layout.Section>
-            <ImageList
-              handleUpdateAllLabels={this.handleUpdateAllLabels}
-              activeFilters={activeFilters}
-            />
-          </Layout.Section>
-          <Layout.Section secondary>
-            <Filters
-              uniqueLabels={uniqueLabels}
-              handleUpdateFilters={this.handleUpdateFilters}
-            />
-          </Layout.Section>
-        </Layout>
+      <Page>
+        <Box mb={3}>
+          <Filters
+            uniqueLabels={uniqueLabels}
+            handleUpdateFilters={this.handleUpdateFilters}
+          />
+        </Box>
+        <Box mb={3}>
+          <ImageList
+            handleUpdateAllLabels={this.handleUpdateAllLabels}
+            activeFilters={activeFilters}
+          />
+        </Box>
       </Page>
     );
   }

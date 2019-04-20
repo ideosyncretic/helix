@@ -67,13 +67,13 @@ export default class ImageCard extends Component {
       <Card>
         <img src={`${baseURL}/${imageFile}`} alt={imageFile} height="250px" />
 
-        {images[imageFile].labels && (
+        {/* {images[imageFile].labels && (
           <Stack spacing="tight">
             {images[imageFile].labels.map(label => {
               return <Badge key={imageFile}>{label}</Badge>;
             })}
           </Stack>
-        )}
+        )} */}
       </Card>
     );
   }
