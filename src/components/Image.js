@@ -60,7 +60,7 @@ export default class Image extends Component {
   };
 
   render() {
-    const { image, images, activeFilters } = this.props;
+    const { image, images, activeFilters, isLoading } = this.props;
     const baseURL = "https://storage.googleapis.com​";
 
     return (
@@ -70,6 +70,7 @@ export default class Image extends Component {
         images={images}
         image={image}
         activeFilters={activeFilters}
+        isLoading={isLoading}
       />
     );
   }

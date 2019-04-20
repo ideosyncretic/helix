@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Flex, Box } from "@rebass/grid";
+import GridLoader from "react-spinners/GridLoader";
 
 import Card from "./layout/Card";
 import data from "../data/data";
@@ -20,6 +21,10 @@ data.imageFiles.forEach(imageFile => {
 class ImageList extends Component {
   state = {
     images,
+  };
+
+  componentWillMount = () => {
+    this.props.handleUpdateTotalImages(Object.keys(this.state.images).length);
   };
 
   handleUpdateImages = (imageFile, labels) => {
@@ -51,17 +56,26 @@ class ImageList extends Component {
     } = this.props;
 
     const totalImages = Object.keys(images).length;
+    const isLoading = annotatedCount !== totalImages;
 
     if (images) {
       return (
         <React.Fragment>
           <Box mb={2}>
-            <Card
-              intent={annotatedCount === totalImages ? "success" : "warning"}
-            >
-              {annotatedCount < totalImages &&
-                `Annotating images ${annotatedCount}/${totalImages}`}
-              {annotatedCount === totalImages && `Annotation complete!`}
+            <Card intent={!isLoading ? "success" : "warning"}>
+              <Flex>
+                <Box mr={2}>
+                  <GridLoader
+                    sizeUnit={"px"}
+                    size={2}
+                    color={"#FF4000"}
+                    loading={isLoading}
+                  />
+                </Box>
+                {annotatedCount < totalImages &&
+                  `Annotating images ${annotatedCount}/${totalImages}`}
+                {!isLoading && `Annotation complete!`}
+              </Flex>
             </Card>
           </Box>
           <Flex flexWrap="wrap" flexDirection="row" ml={-2} mt={-2}>
@@ -93,6 +107,7 @@ class ImageList extends Component {
                       handleUpdateImages={this.handleUpdateImages}
                       activeFilters={activeFilters}
                       images={images}
+                      isLoading={isLoading}
                     />
                   </Box>
                 )

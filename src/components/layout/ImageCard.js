@@ -1,21 +1,39 @@
 import React from "react";
 import { Flex, Box } from "@rebass/grid";
 import styled from "styled-components";
+import Skeleton from "react-skeleton-loader";
 
 import Badge from "./Badge";
 
-const ImageCard = ({ alt, src, image, activeFilters }) => {
+const ImageCard = ({ alt, src, image, activeFilters, isLoading }) => {
   return (
     <StyledImageCard>
-      <Image src={src} alt={alt} />
+      {isLoading ? (
+        <Skeleton
+          height="200px"
+          width="100%"
+          widthRandomness={0}
+          heightRandomness={0.45}
+          borderRadius="5px"
+          color="#808080"
+          animated={false}
+        />
+      ) : (
+        <Image src={src} alt={alt} />
+      )}
       <Box p={2}>
         <Flex>
-          {image.labels && (
+          {!isLoading && image.labels && (
             <Box>
               {image.labels.map(label => {
                 const isActive = activeFilters.includes(label);
                 return <Badge key={label} text={label} isActive={isActive} />;
               })}
+            </Box>
+          )}
+          {isLoading && (
+            <Box>
+              <Badge isLoading={isLoading} />;
             </Box>
           )}
         </Flex>
