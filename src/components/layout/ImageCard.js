@@ -14,7 +14,6 @@ const ImageCard = ({ alt, src, image, activeFilters }) => {
             <Box>
               {image.labels.map(label => {
                 const isActive = activeFilters.includes(label);
-                console.log("isActive", isActive);
                 return <Badge key={label} text={label} isActive={isActive} />;
               })}
             </Box>
@@ -31,6 +30,12 @@ const Image = ({ alt, src }) => {
 const StyledImageCard = styled.div`
   background: #282828;
   border-radius: 5px;
+  transition: 0.1s;
+
+  :hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+  }
 `;
 
 const StyledImage = styled.img`

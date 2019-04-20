@@ -3,8 +3,6 @@ import Select from "react-select";
 import { Flex, Box } from "@rebass/grid";
 import styled from "styled-components";
 
-import Card from "./layout/Card";
-
 class FilterMatchSelect extends React.Component {
   state = {
     selected: { label: "any of", value: "any" },
@@ -66,7 +64,12 @@ class Filters extends Component {
 
   render() {
     const { selected } = this.state;
-    const { activeFilters, uniqueLabels, handleUpdateMatchMode } = this.props;
+    const {
+      activeFilters,
+      uniqueLabels,
+      handleUpdateMatchMode,
+      isLoading,
+    } = this.props;
     const options = uniqueLabels.map(label => {
       return {
         value: label,
@@ -83,6 +86,7 @@ class Filters extends Component {
         <Select
           isMulti
           defaultValue={[]}
+          isLoading={isLoading}
           name="filters"
           value={selected}
           onChange={this.handleFilterSelect}

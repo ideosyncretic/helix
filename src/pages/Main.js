@@ -12,6 +12,8 @@ class Main extends Component {
     uniqueLabels: [], // for generating filters
     activeFilters: [],
     activeMatchMode: "any",
+    annotatedCount: 0,
+    isLoading: true,
   };
 
   handleUpdateAllLabels = detectedLabels => {
@@ -44,8 +46,18 @@ class Main extends Component {
     this.setState({ activeMatchMode: matchMode });
   };
 
+  handleUpdateAnnotatedCount = (annotatedCount, isLoading) => {
+    this.setState({ annotatedCount, isLoading });
+  };
+
   render() {
-    const { uniqueLabels, activeFilters, activeMatchMode } = this.state;
+    const {
+      activeMatchMode,
+      activeFilters,
+      annotatedCount,
+      isLoading,
+      uniqueLabels,
+    } = this.state;
     return (
       <StyledMain>
         <Sticky>
@@ -55,14 +67,17 @@ class Main extends Component {
             uniqueLabels={uniqueLabels}
             handleUpdateFilters={this.handleUpdateFilters}
             handleUpdateMatchMode={this.handleUpdateMatchMode}
+            isLoading={isLoading}
           />
         </Sticky>
         <Page>
           <Box mb={3}>
             <ImageList
+              annotatedCount={annotatedCount}
               handleUpdateAllLabels={this.handleUpdateAllLabels}
               activeFilters={activeFilters}
               activeMatchMode={activeMatchMode}
+              handleUpdateAnnotatedCount={this.handleUpdateAnnotatedCount}
             />
           </Box>
         </Page>
