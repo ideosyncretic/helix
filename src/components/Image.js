@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Badge, Card, Stack } from "@shopify/polaris";
+import ImageCard from "./layout/ImageCard";
 
-export default class ImageCard extends Component {
+export default class Image extends Component {
   componentDidMount = () => {
-    const { images, imageFile } = this.props;
+    const { image } = this.props;
     // get data if image doesn't have annotation data yet
-    if (images[imageFile].labels.length < 1) {
+    if (image.labels.length < 1) {
       this.getImageLabels();
     }
   };
@@ -14,7 +14,7 @@ export default class ImageCard extends Component {
   getImageLabels = () => {
     const baseURL = "https://vision.googleapis.com/v1/images:annotate";
     const key = process.env.REACT_APP_GOOGLE_VISION_API_KEY;
-    const { imageFile, handleUpdateAllLabels, handleUpdateImages } = this.props;
+    const { image, handleUpdateAllLabels, handleUpdateImages } = this.props;
 
     axios({
       method: "post",
@@ -24,7 +24,7 @@ export default class ImageCard extends Component {
           {
             image: {
               source: {
-                imageUri: `gs://${imageFile}`,
+                imageUri: `gs://${image.imageFile}`,
               },
             },
             features: [
@@ -41,14 +41,14 @@ export default class ImageCard extends Component {
         // handle success
         const result = response.data.responses[0];
         const { labelAnnotations } = result;
-        const imageLabels = labelAnnotations.map(labelAnnotation => {
+        const labels = labelAnnotations.map(labelAnnotation => {
           return labelAnnotation.description;
         });
 
-        // console.log("imageLabels", imageLabels);
+        // console.log("labels", labels);
 
-        handleUpdateImages(imageFile, imageLabels);
-        handleUpdateAllLabels(imageLabels);
+        handleUpdateImages(image.imageFile, labels);
+        handleUpdateAllLabels(labels);
       })
       .catch(function(error) {
         // handle error
@@ -60,21 +60,16 @@ export default class ImageCard extends Component {
   };
 
   render() {
-    const { imageFile, images } = this.props;
+    const { image, images } = this.props;
     const baseURL = "https://storage.googleapis.com​";
 
     return (
-      <Card>
-        <img src={`${baseURL}/${imageFile}`} alt={imageFile} height="250px" />
-
-        {images[imageFile].labels && (
-          <Stack spacing="tight">
-            {images[imageFile].labels.map(label => {
-              return <Badge key={imageFile}>{label}</Badge>;
-            })}
-          </Stack>
-        )}
-      </Card>
+      <ImageCard
+        src={`${baseURL}/${image.imageFile}`}
+        alt={image.imageFile}
+        images={images}
+        image={image}
+      />
     );
   }
 }
