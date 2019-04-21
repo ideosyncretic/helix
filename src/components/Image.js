@@ -44,18 +44,12 @@ export default class Image extends Component {
         const labels = labelAnnotations.map(labelAnnotation => {
           return labelAnnotation.description;
         });
-
-        // console.log("labels", labels);
-
         handleUpdateImages(image.imageFile, labels);
         handleUpdateAllLabels(labels);
       })
       .catch(function(error) {
         // handle error
         console.log(error);
-      })
-      .then(function() {
-        // always executed
       });
   };
 
