@@ -44,23 +44,17 @@ export default class Image extends Component {
         const labels = labelAnnotations.map(labelAnnotation => {
           return labelAnnotation.description;
         });
-
-        // console.log("labels", labels);
-
         handleUpdateImages(image.imageFile, labels);
         handleUpdateAllLabels(labels);
       })
       .catch(function(error) {
         // handle error
         console.log(error);
-      })
-      .then(function() {
-        // always executed
       });
   };
 
   render() {
-    const { image, images } = this.props;
+    const { image, images, activeFilters, isLoading } = this.props;
     const baseURL = "https://storage.googleapis.com​";
 
     return (
@@ -69,6 +63,8 @@ export default class Image extends Component {
         alt={image.imageFile}
         images={images}
         image={image}
+        activeFilters={activeFilters}
+        isLoading={isLoading}
       />
     );
   }

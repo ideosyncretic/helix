@@ -1,18 +1,39 @@
 import React from "react";
 import { Flex, Box } from "@rebass/grid";
 import styled from "styled-components";
+import Skeleton from "react-skeleton-loader";
 
-const ImageCard = ({ alt, src, image }) => {
+import Badge from "./Badge";
+
+const ImageCard = ({ alt, src, image, activeFilters, isLoading }) => {
   return (
     <StyledImageCard>
-      <Image src={src} alt={alt} />
+      {isLoading ? (
+        <Skeleton
+          height="200px"
+          width="100%"
+          widthRandomness={0}
+          heightRandomness={0.45}
+          borderRadius="5px"
+          color="#808080"
+          animated={false}
+        />
+      ) : (
+        <Image src={src} alt={alt} />
+      )}
       <Box p={2}>
-        <Flex ml={-1} mt={-1}>
-          {image.labels && (
-            <Box ml={1} mt={1}>
+        <Flex>
+          {!isLoading && image.labels && (
+            <Box>
               {image.labels.map(label => {
-                return <button key={label}>{label}</button>;
+                const isActive = activeFilters.includes(label);
+                return <Badge key={label} text={label} isActive={isActive} />;
               })}
+            </Box>
+          )}
+          {isLoading && (
+            <Box>
+              <Badge isLoading={isLoading} />;
             </Box>
           )}
         </Flex>
@@ -25,8 +46,14 @@ const Image = ({ alt, src }) => {
 };
 
 const StyledImageCard = styled.div`
-  background: #ffffff;
+  background: #282828;
   border-radius: 5px;
+  transition: 0.1s;
+
+  :hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+  }
 `;
 
 const StyledImage = styled.img`

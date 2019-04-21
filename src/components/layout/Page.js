@@ -6,8 +6,7 @@ const Page = ({ children }) => {
 };
 
 const StyledPage = styled.div`
-  background: #f4f6f8;
-  border-radius: 3px;
+  background: #f0f0f0;
   padding: 20px 20px 20px 20px;
   overflow-y: scroll;
   height: 100%;

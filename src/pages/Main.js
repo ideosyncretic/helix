@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Flex, Box } from "@rebass/grid";
 import styled from "styled-components";
+import { Line } from "rc-progress";
 
 import Filters from "../components/Filters";
 import ImageList from "../components/ImageList";
@@ -12,6 +13,9 @@ class Main extends Component {
     uniqueLabels: [], // for generating filters
     activeFilters: [],
     activeMatchMode: "any",
+    annotatedCount: 0,
+    isLoading: true,
+    totalImages: 0,
   };
 
   handleUpdateAllLabels = detectedLabels => {
@@ -44,8 +48,23 @@ class Main extends Component {
     this.setState({ activeMatchMode: matchMode });
   };
 
+  handleUpdateAnnotatedCount = (annotatedCount, isLoading) => {
+    this.setState({ annotatedCount, isLoading });
+  };
+
+  handleUpdateTotalImages = totalImages => {
+    this.setState({ totalImages });
+  };
+
   render() {
-    const { uniqueLabels, activeFilters, activeMatchMode } = this.state;
+    const {
+      activeMatchMode,
+      activeFilters,
+      annotatedCount,
+      isLoading,
+      uniqueLabels,
+      totalImages,
+    } = this.state;
     return (
       <StyledMain>
         <Sticky>
@@ -55,14 +74,27 @@ class Main extends Component {
             uniqueLabels={uniqueLabels}
             handleUpdateFilters={this.handleUpdateFilters}
             handleUpdateMatchMode={this.handleUpdateMatchMode}
+            isLoading={isLoading}
           />
+          {annotatedCount !== totalImages && (
+            <StyledLine
+              percent={(annotatedCount / totalImages) * 100}
+              strokeWidth="0.2"
+              strokeColor="#FF4000"
+              strokeLinecap="square"
+              trailColor="#000"
+            />
+          )}
         </Sticky>
         <Page>
           <Box mb={3}>
             <ImageList
+              annotatedCount={annotatedCount}
               handleUpdateAllLabels={this.handleUpdateAllLabels}
               activeFilters={activeFilters}
               activeMatchMode={activeMatchMode}
+              handleUpdateAnnotatedCount={this.handleUpdateAnnotatedCount}
+              handleUpdateTotalImages={this.handleUpdateTotalImages}
             />
           </Box>
         </Page>
@@ -76,6 +108,11 @@ const StyledMain = styled(Flex)`
   height: 100vh;
   width: 100vw;
   flex-direction: column;
+`;
+
+const StyledLine = styled(Line)`
+  position: fixed;
+  top: 0;
 `;
 
 const Sticky = styled.div`
